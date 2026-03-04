@@ -40,7 +40,7 @@
 
 ## About 
 We are a team of 3 students who were faced with the problem of fragmentation of productivity tools ourselves. Tired of constantly switching between different apps to manage tasks and budget, we decided to create a solution that was sorely lacking in the market.
-Our mission is to create a single and intuitive tool that brings together all aspects of productivity management in one desktop application. We believe that freelancers, solopreneurs, and small teams deserve a tool that saves time and effort, without adding complexity.
+Our mission is to create a single and intuitive tool that brings together all aspects of productivity management in one mobile application. We believe that freelancers, solopreneurs, and small teams deserve a tool that saves time and effort, without adding complexity.
 
 ***Why TaskForge?***
 
