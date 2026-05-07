@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_tasks"
+        android:icon="@android:drawable/ic_menu_today"
+        android:title="Завдання" />
+    <item
+        android:id="@+id/nav_finances"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
+        android:title="Фінанси" />
+    <item
+        android:id="@+id/nav_subscriptions"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Підписки" />
+</menu>
