@@ -121,9 +121,8 @@ public class ProjectsFragment extends Fragment {
                     Project p = new Project(loggedInUserId, title, desc);
                     long createdProjectId = repository.insertProject(p);
                     if (createdProjectId != -1) {
-                        // Insert the current user into ProjectMember table
                         repository.insertProjectMember(new ProjectMember(createdProjectId, loggedInUserId));
-                        loadProjects(); // Reload list from background thread
+                        loadProjects();
                     }
                 });
             }

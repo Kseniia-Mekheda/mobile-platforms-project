@@ -168,7 +168,9 @@ public class TasksActivity extends AppCompatActivity {
                     Task t = new Task(projectId, selectedAssigneeId, title, category, priority, status, dueDate, 0);
                     repository.insertTask(t);
                 }
-                runOnUiThread(() -> loadTasks());
+                new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                    loadTasks();
+                }, 300);
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());

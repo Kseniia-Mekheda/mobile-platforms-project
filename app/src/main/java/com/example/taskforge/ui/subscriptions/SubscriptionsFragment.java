@@ -151,7 +151,9 @@ public class SubscriptionsFragment extends Fragment {
                         // Перезапускаємо будильник з новим інтервалом
                         AlarmScheduler.scheduleSubscriptionReminder(requireContext(), existingSub);
                     }
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                     loadData();
+                }, 300);
                 });
             }
         });

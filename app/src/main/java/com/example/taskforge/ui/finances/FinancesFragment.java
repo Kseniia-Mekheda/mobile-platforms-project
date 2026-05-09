@@ -257,15 +257,16 @@ public class FinancesFragment extends Fragment {
 
     private void showDeleteDialog(FinanceRecord record) {
         new AlertDialog.Builder(getContext())
-            .setTitle("Delete Record")
-            .setMessage("Delete this record?")
-            .setPositiveButton("Yes", (dialog, which) -> {
+            .setTitle("Видалити запис?")
+            .setPositiveButton("Так", (dialog, which) -> {
                 executorService.execute(() -> {
                     repository.deleteFinanceRecord(record);
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                     loadFinances();
+                }, 200);
                 });
             })
-            .setNegativeButton("No", null)
+            .setNegativeButton("Ні", null)
             .show();
     }
 

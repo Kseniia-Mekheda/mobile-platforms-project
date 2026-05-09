@@ -77,7 +77,9 @@ public class EditProjectActivity extends AppCompatActivity {
         btnSaveProject.setOnClickListener(v -> saveProject());
         btnAddMember.setOnClickListener(v -> addMemberByEmail());
 
-        loadProjectDetails();
+        new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                    loadProjectDetails();
+                }, 300);
     }
 
     @Override
@@ -95,7 +97,9 @@ public class EditProjectActivity extends AppCompatActivity {
                     etProjectDesc.setText(currentProject.description);
                 });
             }
-            loadMembers();
+            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                    loadMembers();
+                }, 300);
         });
     }
 
@@ -147,7 +151,9 @@ public class EditProjectActivity extends AppCompatActivity {
                         Toast.makeText(this, "Користувача додано", Toast.LENGTH_SHORT).show();
                         etUserEmail.setText("");
                     });
+                    new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                     loadMembers();
+                }, 300);
                 }
             }
         });
@@ -165,7 +171,9 @@ public class EditProjectActivity extends AppCompatActivity {
     private void kickMember(long userId) {
         executorService.execute(() -> {
             repository.removeProjectMember(projectId, userId);
-            loadMembers();
+            new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
+                    loadMembers();
+                }, 300);
         });
     }
 
