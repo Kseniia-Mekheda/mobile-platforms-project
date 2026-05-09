@@ -54,9 +54,13 @@ public class ProjectsFragment extends Fragment {
         SharedPreferences prefs = requireActivity().getSharedPreferences("TaskForgePrefs", Context.MODE_PRIVATE);
         loggedInUserId = prefs.getLong("logged_in_user_id", -1);
 
-        adapter = new ProjectAdapter(new ArrayList<>(), project -> {
+        adapter = new ProjectAdapter(new ArrayList<>(), loggedInUserId, project -> {
             Intent intent = new Intent(getActivity(), com.example.taskforge.ui.tasks.TasksActivity.class);
             intent.putExtra("PROJECT_ID", project.id);
+            startActivity(intent);
+        }, projectId -> {
+            Intent intent = new Intent(getActivity(), EditProjectActivity.class);
+            intent.putExtra("PROJECT_ID", projectId);
             startActivity(intent);
         });
         rvProjects.setAdapter(adapter);

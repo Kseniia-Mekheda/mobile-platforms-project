@@ -24,11 +24,20 @@ public interface TaskForgeDao {
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
     User getUserByEmail(String email);
 
+    @Query("SELECT * FROM users WHERE id = :userId LIMIT 1")
+    User getUserById(long userId);
+
+    @Update
+    void updateUser(User user);
+
     // Project CRUD
     @Insert
     long insertProject(Project project);
 
-    @Query("SELECT * FROM projects WHERE owner_id = :userId")
+    @Update
+    void updateProject(Project project);
+
+    @Query("SELECT * FROM projects WHERE owner_id = :userId OR id IN (SELECT project_id FROM project_members WHERE user_id = :userId)")
     List<Project> getProjectsForUser(long userId);
 
     @Query("SELECT * FROM projects WHERE id = :projectId LIMIT 1")
@@ -42,6 +51,12 @@ public interface TaskForgeDao {
 
     @Insert
     void insertProjectMember(ProjectMember member);
+
+    @Query("DELETE FROM project_members WHERE project_id = :projectId AND user_id = :userId")
+    void removeProjectMember(long projectId, long userId);
+
+    @Query("SELECT COUNT(*) FROM project_members WHERE project_id = :projectId AND user_id = :userId")
+    int isUserInProject(long projectId, long userId);
 
     // Task CRUD
     @Insert

@@ -56,6 +56,20 @@ public class TaskForgeRepository {
         }
     }
 
+    public User getUserById(long userId) {
+        Future<User> future = TaskForgeDatabase.databaseWriteExecutor.submit(() -> taskForgeDao.getUserById(userId));
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public void updateUser(User user) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.updateUser(user));
+    }
+
     // --- Project Operations ---
 
     public long insertProject(Project project) {
@@ -71,6 +85,10 @@ public class TaskForgeRepository {
             e.printStackTrace();
             return -1;
         }
+    }
+
+    public void updateProject(Project project) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.updateProject(project));
     }
 
     public List<Project> getProjectsForUser(long userId) {
@@ -110,6 +128,20 @@ public class TaskForgeRepository {
 
     public void insertProjectMember(com.example.taskforge.data.entities.ProjectMember member) {
         TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.insertProjectMember(member));
+    }
+
+    public void removeProjectMember(long projectId, long userId) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.removeProjectMember(projectId, userId));
+    }
+
+    public int isUserInProject(long projectId, long userId) {
+        Future<Integer> future = TaskForgeDatabase.databaseWriteExecutor.submit(() -> taskForgeDao.isUserInProject(projectId, userId));
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     public List<User> getUsersForProject(long projectId) {

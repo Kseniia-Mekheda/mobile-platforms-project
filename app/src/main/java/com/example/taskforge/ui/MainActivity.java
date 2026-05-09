@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import com.example.taskforge.R;
 import com.example.taskforge.ui.auth.LoginActivity;
 import com.example.taskforge.ui.finances.FinancesFragment;
+import com.example.taskforge.ui.profile.ProfileFragment;
 import com.example.taskforge.ui.projects.ProjectsFragment;
 import com.example.taskforge.ui.subscriptions.SubscriptionsFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,8 +47,10 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new FinancesFragment();
             } else if (id == R.id.nav_subscriptions) {
                 selectedFragment = new SubscriptionsFragment();
+            } else if (id == R.id.nav_profile) {
+                selectedFragment = new ProfileFragment();
             }
-            
+
             if (selectedFragment != null) {
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, selectedFragment)

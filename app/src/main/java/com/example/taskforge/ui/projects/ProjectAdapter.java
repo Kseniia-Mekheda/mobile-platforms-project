@@ -3,6 +3,7 @@ package com.example.taskforge.ui.projects;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,14 +18,22 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     private List<Project> projectList;
     private OnProjectClickListener listener;
+    private OnProjectEditClickListener editListener;
+    private long loggedInUserId;
 
     public interface OnProjectClickListener {
         void onProjectClick(Project project);
     }
 
-    public ProjectAdapter(List<Project> projectList, OnProjectClickListener listener) {
+    public interface OnProjectEditClickListener {
+        void onProjectEditClick(long projectId);
+    }
+
+    public ProjectAdapter(List<Project> projectList, long loggedInUserId, OnProjectClickListener listener, OnProjectEditClickListener editListener) {
         this.projectList = projectList;
+        this.loggedInUserId = loggedInUserId;
         this.listener = listener;
+        this.editListener = editListener;
     }
 
     @NonNull
@@ -40,6 +49,18 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
         holder.tvProjectName.setText(project.name);
         holder.tvProjectDesc.setText(project.description != null ? project.description : "Немає опису");
         holder.tvProjectMembers.setText("Учасників: ...");
+
+        if (project.owner_id == loggedInUserId) {
+            holder.btnEditProject.setVisibility(View.VISIBLE);
+        } else {
+            holder.btnEditProject.setVisibility(View.GONE);
+        }
+
+        holder.btnEditProject.setOnClickListener(v -> {
+            if (editListener != null) {
+                editListener.onProjectEditClick(project.id);
+            }
+        });
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -60,12 +81,14 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
 
     static class ProjectViewHolder extends RecyclerView.ViewHolder {
         TextView tvProjectName, tvProjectDesc, tvProjectMembers;
+        ImageButton btnEditProject;
 
         public ProjectViewHolder(@NonNull View itemView) {
             super(itemView);
             tvProjectName = itemView.findViewById(R.id.tvProjectName);
             tvProjectDesc = itemView.findViewById(R.id.tvProjectDesc);
             tvProjectMembers = itemView.findViewById(R.id.tvProjectMembers);
+            btnEditProject = itemView.findViewById(R.id.btnEditProject);
         }
     }
 }
