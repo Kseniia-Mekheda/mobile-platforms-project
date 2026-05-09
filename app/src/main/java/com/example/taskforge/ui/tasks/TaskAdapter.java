@@ -3,7 +3,6 @@ package com.example.taskforge.ui.tasks;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +15,16 @@ import java.util.List;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    private List<Task> taskList;
+    public interface OnTaskClickListener {
+        void onTaskClick(Task task);
+    }
 
-    public TaskAdapter(List<Task> taskList) {
+    private List<Task> taskList;
+    private OnTaskClickListener listener;
+
+    public TaskAdapter(List<Task> taskList, OnTaskClickListener listener) {
         this.taskList = taskList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -33,10 +38,15 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.tvTaskTitle.setText(task.title);
-        holder.tvTaskPriority.setText("Пріоритет: " + task.priority);
-        holder.tvTaskStatus.setText("Статус: " + task.status);
+        holder.tvTaskCategory.setText("Category: " + task.category);
+        holder.tvTaskPriority.setText("Priority: " + task.priority);
+        holder.tvTaskStatus.setText("Status: " + task.status);
 
-        // TODO: Пізніше реалізувати лісенер на кнопку "Таймер" для відкриття фрагменту таймера
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onTaskClick(task);
+            }
+        });
     }
 
     @Override
@@ -50,15 +60,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     static class TaskViewHolder extends RecyclerView.ViewHolder {
-        TextView tvTaskTitle, tvTaskPriority, tvTaskStatus;
-        Button btnOpenTimer;
+        TextView tvTaskTitle, tvTaskCategory, tvTaskPriority, tvTaskStatus;
 
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTaskTitle = itemView.findViewById(R.id.tvTaskTitle);
+            tvTaskCategory = itemView.findViewById(R.id.tvTaskCategory);
             tvTaskPriority = itemView.findViewById(R.id.tvTaskPriority);
             tvTaskStatus = itemView.findViewById(R.id.tvTaskStatus);
-            btnOpenTimer = itemView.findViewById(R.id.btnOpenTimer);
         }
     }
 }

@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment;
 import com.example.taskforge.R;
 import com.example.taskforge.ui.auth.LoginActivity;
 import com.example.taskforge.ui.finances.FinancesFragment;
+import com.example.taskforge.ui.projects.ProjectsFragment;
 import com.example.taskforge.ui.subscriptions.SubscriptionsFragment;
-import com.example.taskforge.ui.tasks.TasksFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
             Fragment selectedFragment = null;
             int id = item.getItemId();
             
-            if (id == R.id.nav_tasks) {
-                selectedFragment = new TasksFragment();
+            if (id == R.id.nav_projects) {
+                selectedFragment = new ProjectsFragment();
             } else if (id == R.id.nav_finances) {
                 selectedFragment = new FinancesFragment();
             } else if (id == R.id.nav_subscriptions) {
@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity {
             return false;
         });
 
-        // Завантажуємо перший фрагмент за замовчуванням (Tasks)
+        // Завантажуємо перший фрагмент за замовчуванням (Projects)
         if (savedInstanceState == null) {
-            bottomNav.setSelectedItemId(R.id.nav_tasks);
+            bottomNav.setSelectedItemId(R.id.nav_projects);
         }
     }
 }

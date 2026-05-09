@@ -20,19 +20,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskforge.R;
 import com.example.taskforge.data.entities.Project;
+import com.example.taskforge.data.entities.ProjectMember;
 import com.example.taskforge.domain.repositories.TaskForgeRepository;
-import com.example.taskforge.ui.tasks.TasksActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ProjectsFragment extends Fragment {
 
     private RecyclerView rvProjects;
-    private ProjectAdapter adapter;
+    private FloatingActionButton fabAddProject;
+    
     private TaskForgeRepository repository;
-    private long currentUserId;
+    private long loggedInUserId;
+    private ExecutorService executorService;
+    private ProjectAdapter adapter;
 
     @Nullable
     @Override
@@ -40,36 +45,41 @@ public class ProjectsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_projects, container, false);
 
         rvProjects = view.findViewById(R.id.rvProjects);
-        FloatingActionButton fabAddProject = view.findViewById(R.id.fabAddProject);
+        fabAddProject = view.findViewById(R.id.fabAddProject);
 
         rvProjects.setLayoutManager(new LinearLayoutManager(getContext()));
+        repository = new TaskForgeRepository(requireActivity().getApplication());
+        executorService = Executors.newSingleThreadExecutor();
+
+        SharedPreferences prefs = requireActivity().getSharedPreferences("TaskForgePrefs", Context.MODE_PRIVATE);
+        loggedInUserId = prefs.getLong("logged_in_user_id", -1);
+
         adapter = new ProjectAdapter(new ArrayList<>(), project -> {
-            Intent intent = new Intent(getActivity(), TasksActivity.class);
+            Intent intent = new Intent(getActivity(), com.example.taskforge.ui.tasks.TasksActivity.class);
             intent.putExtra("PROJECT_ID", project.id);
-            intent.putExtra("PROJECT_NAME", project.name);
             startActivity(intent);
         });
         rvProjects.setAdapter(adapter);
 
-        repository = new TaskForgeRepository(getActivity().getApplication());
-
-        SharedPreferences prefs = getActivity().getSharedPreferences("TaskForgePrefs", Context.MODE_PRIVATE);
-        currentUserId = prefs.getLong("logged_in_user_id", -1);
+        fabAddProject.setOnClickListener(v -> showAddProjectDialog());
 
         loadProjects();
-
-        fabAddProject.setOnClickListener(v -> showAddProjectDialog());
 
         return view;
     }
 
     private void loadProjects() {
-        if (currentUserId != -1) {
-            List<Project> projects = repository.getProjectsForUser(currentUserId);
-            if (projects != null) {
-                adapter.setProjects(projects);
+        executorService.execute(() -> {
+            List<Project> projects = repository.getProjectsForUser(loggedInUserId);
+            
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(() -> {
+                    if (projects != null) {
+                        adapter.setProjects(projects);
+                    }
+                });
             }
-        }
+        });
     }
 
     private void showAddProjectDialog() {
@@ -97,12 +107,27 @@ public class ProjectsFragment extends Fragment {
             if (title.isEmpty()) {
                 Toast.makeText(getContext(), "Назва не може бути порожньою", Toast.LENGTH_SHORT).show();
             } else {
-                Project p = new Project(currentUserId, title, desc);
-                repository.insertProject(p);
-                loadProjects(); // Reload list
+                executorService.execute(() -> {
+                    Project p = new Project(loggedInUserId, title, desc);
+                    long createdProjectId = repository.insertProject(p);
+                    if (createdProjectId != -1) {
+                        // Insert the current user into ProjectMember table
+                        repository.insertProjectMember(new ProjectMember(createdProjectId, loggedInUserId));
+                        loadProjects(); // Reload list from background thread
+                    }
+                });
             }
         });
+        
         builder.setNegativeButton("Скасувати", (dialog, which) -> dialog.dismiss());
         builder.create().show();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (executorService != null) {
+            executorService.shutdown();
+        }
     }
 }

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskforge.R;
 import com.example.taskforge.data.entities.Task;
+import com.example.taskforge.data.entities.User;
 import com.example.taskforge.domain.repositories.TaskForgeRepository;
 import com.example.taskforge.domain.utils.TaskSorter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -29,6 +30,7 @@ public class TasksActivity extends AppCompatActivity {
     private TaskForgeRepository repository;
     private RecyclerView rvTasks;
     private TaskAdapter adapter;
+    private List<User> projectUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,48 +38,58 @@ public class TasksActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tasks);
 
         projectId = getIntent().getLongExtra("PROJECT_ID", -1);
-        String projectName = getIntent().getStringExtra("PROJECT_NAME");
-
-        if (projectName != null) {
-            setTitle("Завдання: " + projectName);
-        }
 
         SharedPreferences prefs = getSharedPreferences("TaskForgePrefs", MODE_PRIVATE);
         currentUserId = prefs.getLong("logged_in_user_id", -1);
 
         repository = new TaskForgeRepository(getApplication());
 
+        if (projectId != -1) {
+            projectUsers = repository.getUsersForProject(projectId);
+        } else {
+            projectUsers = new ArrayList<>();
+        }
+
         rvTasks = findViewById(R.id.rvTasks);
         FloatingActionButton fabAddTask = findViewById(R.id.fabAddTask);
 
         rvTasks.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new TaskAdapter(new ArrayList<>());
+        adapter = new TaskAdapter(new ArrayList<>(), task -> showTaskDialog(task));
         rvTasks.setAdapter(adapter);
 
         loadTasks();
 
-        fabAddTask.setOnClickListener(v -> showAddTaskDialog());
+        fabAddTask.setOnClickListener(v -> showTaskDialog(null));
     }
 
     private void loadTasks() {
-        List<Task> tasks = repository.getTasksForProject(projectId);
-        if (tasks != null) {
-            TaskSorter.sortByPriorityAndDate(tasks);
-            adapter.setTasks(tasks);
+        if (projectId != -1) {
+            List<Task> tasks = repository.getTasksForProject(projectId);
+            if (tasks != null) {
+                TaskSorter.sortByPriorityAndDate(tasks);
+                adapter.setTasks(tasks);
+            }
         }
     }
 
-    private void showAddTaskDialog() {
+    private void showTaskDialog(Task existingTask) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Нове завдання");
+        boolean isEdit = existingTask != null;
+        builder.setTitle(isEdit ? "Edit Task" : "New Task");
 
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setPadding(50, 20, 50, 20);
 
         final EditText titleBox = new EditText(this);
-        titleBox.setHint("Назва завдання");
+        titleBox.setHint("Task Name");
         layout.addView(titleBox);
+
+        final Spinner categorySpinner = new Spinner(this);
+        String[] categories = new String[]{"Development", "Design", "QA", "Marketing", "Other"};
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        categorySpinner.setAdapter(categoryAdapter);
+        layout.addView(categorySpinner);
 
         final Spinner prioritySpinner = new Spinner(this);
         String[] priorities = new String[]{"High", "Med", "Low"};
@@ -91,24 +103,77 @@ public class TasksActivity extends AppCompatActivity {
         statusSpinner.setAdapter(statusAdapter);
         layout.addView(statusSpinner);
 
+        final Spinner assigneeSpinner = new Spinner(this);
+        List<String> userNames = new ArrayList<>();
+        for (User u : projectUsers) {
+            userNames.add(u.name);
+        }
+        if (userNames.isEmpty()) userNames.add("Unassigned");
+        ArrayAdapter<String> assigneeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, userNames);
+        assigneeSpinner.setAdapter(assigneeAdapter);
+        layout.addView(assigneeSpinner);
+
+        if (isEdit) {
+            titleBox.setText(existingTask.title);
+            setSpinnerSelection(categorySpinner, categories, existingTask.category);
+            setSpinnerSelection(prioritySpinner, priorities, existingTask.priority);
+            setSpinnerSelection(statusSpinner, statuses, existingTask.status);
+            
+            if (existingTask.assignee_id != null) {
+                for (int i = 0; i < projectUsers.size(); i++) {
+                    if (projectUsers.get(i).id == existingTask.assignee_id) {
+                        assigneeSpinner.setSelection(i);
+                        break;
+                    }
+                }
+            }
+        }
+
         builder.setView(layout);
 
-        builder.setPositiveButton("Додати", (dialog, which) -> {
+        builder.setPositiveButton("Save", (dialog, which) -> {
             String title = titleBox.getText().toString().trim();
+            String category = categorySpinner.getSelectedItem().toString();
             String priority = prioritySpinner.getSelectedItem().toString();
             String status = statusSpinner.getSelectedItem().toString();
+            
+            Long selectedAssigneeId = null;
+            if (!projectUsers.isEmpty()) {
+                int selectedPos = assigneeSpinner.getSelectedItemPosition();
+                if (selectedPos >= 0 && selectedPos < projectUsers.size()) {
+                    selectedAssigneeId = projectUsers.get(selectedPos).id;
+                }
+            }
 
             if (title.isEmpty()) {
-                Toast.makeText(this, "Назва не може бути порожньою", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
-                // В якості due_date тимчасово ставимо поточний час + 1 день
-                long dueDate = System.currentTimeMillis() + 86400000;
-                Task t = new Task(projectId, currentUserId, title, "General", priority, status, dueDate, 0);
-                repository.insertTask(t);
+                if (isEdit) {
+                    existingTask.title = title;
+                    existingTask.category = category;
+                    existingTask.priority = priority;
+                    existingTask.status = status;
+                    existingTask.assignee_id = selectedAssigneeId;
+                    repository.updateTask(existingTask);
+                } else {
+                    long dueDate = System.currentTimeMillis() + 86400000; // +1 day
+                    Task t = new Task(projectId, selectedAssigneeId, title, category, priority, status, dueDate, 0);
+                    repository.insertTask(t);
+                }
                 loadTasks();
             }
         });
-        builder.setNegativeButton("Скасувати", (dialog, which) -> dialog.dismiss());
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
         builder.create().show();
+    }
+
+    private void setSpinnerSelection(Spinner spinner, String[] array, String value) {
+        if (value == null) return;
+        for (int i = 0; i < array.length; i++) {
+            if (array[i].equals(value)) {
+                spinner.setSelection(i);
+                break;
+            }
+        }
     }
 }

@@ -38,7 +38,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public void onBindViewHolder(@NonNull ProjectViewHolder holder, int position) {
         Project project = projectList.get(position);
         holder.tvProjectName.setText(project.name);
-        holder.tvProjectDesc.setText(project.description != null ? project.description : "");
+        holder.tvProjectDesc.setText(project.description != null ? project.description : "Немає опису");
+        holder.tvProjectMembers.setText("Учасників: ...");
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {
@@ -58,12 +59,13 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     }
 
     static class ProjectViewHolder extends RecyclerView.ViewHolder {
-        TextView tvProjectName, tvProjectDesc;
+        TextView tvProjectName, tvProjectDesc, tvProjectMembers;
 
         public ProjectViewHolder(@NonNull View itemView) {
             super(itemView);
             tvProjectName = itemView.findViewById(R.id.tvProjectName);
             tvProjectDesc = itemView.findViewById(R.id.tvProjectDesc);
+            tvProjectMembers = itemView.findViewById(R.id.tvProjectMembers);
         }
     }
 }

@@ -88,6 +88,40 @@ public class TaskForgeRepository {
         }
     }
 
+    public Project getProjectById(long projectId) {
+        Future<Project> future = TaskForgeDatabase.databaseWriteExecutor.submit(() -> taskForgeDao.getProjectById(projectId));
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public int getMemberCountForProject(long projectId) {
+        Future<Integer> future = TaskForgeDatabase.databaseWriteExecutor.submit(() -> taskForgeDao.getMemberCountForProject(projectId));
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    public void insertProjectMember(com.example.taskforge.data.entities.ProjectMember member) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.insertProjectMember(member));
+    }
+
+    public List<User> getUsersForProject(long projectId) {
+        Future<List<User>> future = TaskForgeDatabase.databaseWriteExecutor.submit(() -> taskForgeDao.getUsersForProject(projectId));
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     // --- Task Operations ---
 
     public long insertTask(Task task) {
@@ -136,6 +170,14 @@ public class TaskForgeRepository {
         }
     }
 
+    public void updateFinanceRecord(FinanceRecord record) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.updateFinanceRecord(record));
+    }
+
+    public void deleteFinanceRecord(FinanceRecord record) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.deleteFinanceRecord(record));
+    }
+
     // --- Subscription Operations ---
     
     public long insertSubscription(Subscription subscription) {
@@ -156,5 +198,13 @@ public class TaskForgeRepository {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void updateSubscription(Subscription subscription) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.updateSubscription(subscription));
+    }
+
+    public void deleteSubscription(Subscription subscription) {
+        TaskForgeDatabase.databaseWriteExecutor.execute(() -> taskForgeDao.deleteSubscription(subscription));
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_tasks"
+        android:id="@+id/nav_projects"
         android:icon="@android:drawable/ic_menu_today"
-        android:title="Завдання" />
+        android:title="Проєкти" />
     <item
         android:id="@+id/nav_finances"
         android:icon="@android:drawable/ic_menu_sort_by_size"

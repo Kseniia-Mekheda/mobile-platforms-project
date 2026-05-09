@@ -1,6 +1,7 @@
 package com.example.taskforge.data.daos;
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
@@ -11,6 +12,7 @@ import com.example.taskforge.data.entities.Task;
 import com.example.taskforge.data.entities.Project;
 import com.example.taskforge.data.entities.FinanceRecord;
 import com.example.taskforge.data.entities.Subscription;
+import com.example.taskforge.data.entities.ProjectMember;
 
 @Dao
 public interface TaskForgeDao {
@@ -29,6 +31,18 @@ public interface TaskForgeDao {
     @Query("SELECT * FROM projects WHERE owner_id = :userId")
     List<Project> getProjectsForUser(long userId);
 
+    @Query("SELECT * FROM projects WHERE id = :projectId LIMIT 1")
+    Project getProjectById(long projectId);
+
+    @Query("SELECT COUNT(*) FROM project_members WHERE project_id = :projectId")
+    int getMemberCountForProject(long projectId);
+
+    @Query("SELECT u.* FROM users u INNER JOIN project_members pm ON u.id = pm.user_id WHERE pm.project_id = :projectId")
+    List<User> getUsersForProject(long projectId);
+
+    @Insert
+    void insertProjectMember(ProjectMember member);
+
     // Task CRUD
     @Insert
     long insertTask(Task task);
@@ -46,10 +60,23 @@ public interface TaskForgeDao {
     @Query("SELECT * FROM finance_records WHERE user_id = :userId ORDER BY date_ms DESC")
     List<FinanceRecord> getFinanceRecordsForUser(long userId);
 
+    @Update
+    void updateFinanceRecord(FinanceRecord record);
+
+    @Delete
+    void deleteFinanceRecord(FinanceRecord record);
+
     // Subscription CRUD
     @Insert
     long insertSubscription(Subscription subscription);
 
     @Query("SELECT * FROM subscriptions WHERE user_id = :userId")
     List<Subscription> getSubscriptionsForUser(long userId);
+
+    @Update
+    void updateSubscription(Subscription subscription);
+
+    @Delete
+    void deleteSubscription(Subscription subscription);
+
 }
