@@ -72,6 +72,12 @@ public class ProjectsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadProjects(); 
+    }
+
     private void loadProjects() {
         executorService.execute(() -> {
             List<Project> projects = repository.getProjectsForUser(loggedInUserId);

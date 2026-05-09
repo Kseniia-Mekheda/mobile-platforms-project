@@ -80,6 +80,12 @@ public class FinancesFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadFinances(); 
+    }
+
     private void setupPieChart() {
         pieChart.setUsePercentValues(false);
         pieChart.getDescription().setEnabled(false);

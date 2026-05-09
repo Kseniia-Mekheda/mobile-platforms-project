@@ -62,12 +62,20 @@ public class TasksActivity extends AppCompatActivity {
         fabAddTask.setOnClickListener(v -> showTaskDialog(null));
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadTasks(); 
+    }
+
     private void loadTasks() {
         if (projectId != -1) {
             List<Task> tasks = repository.getTasksForProject(projectId);
             if (tasks != null) {
                 TaskSorter.sortByPriorityAndDate(tasks);
-                adapter.setTasks(tasks);
+                runOnUiThread(() -> {
+                        adapter.setTasks(tasks);
+                    });
             }
         }
     }
@@ -92,7 +100,7 @@ public class TasksActivity extends AppCompatActivity {
         layout.addView(categorySpinner);
 
         final Spinner prioritySpinner = new Spinner(this);
-        String[] priorities = new String[]{"High", "Med", "Low"};
+        String[] priorities = new String[]{"High", "Medium", "Low"};
         ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, priorities);
         prioritySpinner.setAdapter(priorityAdapter);
         layout.addView(prioritySpinner);
@@ -160,7 +168,7 @@ public class TasksActivity extends AppCompatActivity {
                     Task t = new Task(projectId, selectedAssigneeId, title, category, priority, status, dueDate, 0);
                     repository.insertTask(t);
                 }
-                loadTasks();
+                runOnUiThread(() -> loadTasks());
             }
         });
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());

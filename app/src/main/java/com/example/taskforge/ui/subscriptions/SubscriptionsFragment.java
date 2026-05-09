@@ -69,6 +69,12 @@ public class SubscriptionsFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadData(); 
+    }
+
     private void loadData() {
         TaskForgeDatabase.databaseWriteExecutor.execute(() -> {
             List<Subscription> subs = repository.getSubscriptionsForUser(loggedInUserId);

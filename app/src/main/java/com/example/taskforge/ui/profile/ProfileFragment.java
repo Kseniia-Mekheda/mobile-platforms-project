@@ -65,6 +65,12 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadUserData(); 
+    }
+
     private void loadUserData() {
         executorService.execute(() -> {
             currentUser = repository.getUserById(loggedInUserId);

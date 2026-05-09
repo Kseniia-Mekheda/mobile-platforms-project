@@ -80,6 +80,12 @@ public class EditProjectActivity extends AppCompatActivity {
         loadProjectDetails();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadProjectDetails(); 
+    }
+
     private void loadProjectDetails() {
         executorService.execute(() -> {
             currentProject = repository.getProjectById(projectId);

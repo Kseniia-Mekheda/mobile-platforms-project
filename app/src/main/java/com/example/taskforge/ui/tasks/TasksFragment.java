@@ -58,6 +58,12 @@ public class TasksFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadTasks(); 
+    }
+
     private void loadTasks() {
         executorService.execute(() -> {
             List<Task> allTasks = new ArrayList<>();
