@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.TaskForge.Headline1" parent="TextAppearance.Material3.HeadlineLarge">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/ui_heading_text</item>
+    </style>
+
+    <style name="TextAppearance.TaskForge.Headline2" parent="TextAppearance.Material3.TitleLarge">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/ui_heading_text</item>
+    </style>
+
+    <style name="TextAppearance.TaskForge.Body" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textColor">@color/ui_body_text</item>
+    </style>
+
+    <style name="TextAppearance.TaskForge.Caption" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">@color/ui_hint_text</item>
+    </style>
+
+    <style name="Widget.TaskForge.Button.Primary" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="backgroundTint">@color/ui_accent_primary</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TaskForge.Button.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="strokeColor">@color/ui_accent_secondary</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/ui_body_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TaskForge.Button.Danger" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:minHeight">48dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="strokeColor">@color/ui_hint_text</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/ui_body_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TaskForge.Button.DialogSave" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">44dp</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="backgroundTint">@color/ui_accent_primary</item>
+        <item name="android:textColor">@color/ui_heading_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TaskForge.Button.DialogCancel" parent="Widget.MaterialComponents.Button">
+        <item name="android:minHeight">44dp</item>
+        <item name="cornerRadius">10dp</item>
+        <item name="backgroundTint">@color/ui_button_neutral</item>
+        <item name="android:textColor">@color/ui_heading_text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TaskForge.CardView" parent="Widget.MaterialComponents.CardView">
+        <item name="strokeColor">@color/ui_card_border</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="cardElevation">1dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="Widget.TaskForge.FAB" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/ui_accent_primary</item>
+        <item name="tint">@color/white</item>
+    </style>
+
+    <style name="Widget.TaskForge.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/white</item>
+        <item name="boxStrokeColor">@color/ui_accent_secondary</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="hintTextColor">@color/ui_hint_text</item>
+    </style>
+
+    <style name="Widget.TaskForge.TextInputLayout.Dialog" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">#F7F7F7</item>
+        <item name="boxStrokeColor">#B8AFC9</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxStrokeWidthFocused">2dp</item>
+        <item name="hintTextColor">@color/ui_heading_text</item>
+    </style>
+
+    <style name="Widget.TaskForge.EditText" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/ui_body_text</item>
+        <item name="android:textColorHint">@color/ui_hint_text</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
+    <style name="Widget.TaskForge.Tag" parent="Widget.MaterialComponents.TextView">
+        <item name="android:background">@drawable/bg_tag</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/ui_heading_text</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="Widget.TaskForge.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_tint</item>
+        <item name="itemTextColor">@color/bottom_nav_tint</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.TaskForge.Dialog" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">20dp</item>
+    </style>
+
+    <style name="ThemeOverlay.TaskForge.MaterialAlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="materialAlertDialogBodyTextStyle">@style/TextAppearance.TaskForge.Body</item>
+        <item name="shapeAppearanceOverlay">@style/ShapeAppearanceOverlay.TaskForge.Dialog</item>
+    </style>
+
+</resources>

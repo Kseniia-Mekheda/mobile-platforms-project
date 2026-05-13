@@ -1,20 +1,20 @@
 package com.example.taskforge.ui.subscriptions;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,12 +24,13 @@ import com.example.taskforge.data.TaskForgeDatabase;
 import com.example.taskforge.data.entities.Subscription;
 import com.example.taskforge.domain.repositories.TaskForgeRepository;
 import com.example.taskforge.domain.utils.AlarmScheduler;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.content.Intent;
-import com.example.taskforge.receivers.SubscriptionReceiver;
+
 public class SubscriptionsFragment extends Fragment {
 
     private RecyclerView rvSubscriptions;
@@ -83,35 +84,23 @@ public class SubscriptionsFragment extends Fragment {
     }
 
     private void showSubDialog(@Nullable Subscription existingSub) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle(existingSub == null ? "Нова підписка" : "Редагувати підписку");
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_subscription, null, false);
+        TextInputEditText etTitle = dialogView.findViewById(R.id.etSubscriptionTitle);
+        TextInputEditText etPrice = dialogView.findViewById(R.id.etSubscriptionAmount);
+        Spinner spCategory = dialogView.findViewById(R.id.spSubscriptionCategory);
+        View btnCancel = dialogView.findViewById(R.id.btnCancelDialog);
+        View btnSave = dialogView.findViewById(R.id.btnSaveDialog);
 
-        LinearLayout layout = new LinearLayout(getContext());
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(40, 20, 40, 20);
-
-        EditText etTitle = new EditText(getContext());
-        etTitle.setHint("Назва (напр., Netflix)");
-        layout.addView(etTitle);
-
-        EditText etPrice = new EditText(getContext());
-        etPrice.setHint("Сума");
-        etPrice.setInputType(android.text.InputType.TYPE_CLASS_NUMBER | android.text.InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        layout.addView(etPrice);
-
-        // Spinner для категорії
-        Spinner spCategory = new Spinner(getContext());
-        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, new String[]{"Розваги", "Софт", "Інше"});
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, new String[]{"Розваги", "Софт", "Інше"});
+        catAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         spCategory.setAdapter(catAdapter);
-        layout.addView(spCategory);
 
-        // НОВИЙ Spinner для періодичності
-        Spinner spInterval = new Spinner(getContext());
+        Spinner spInterval = dialogView.findViewById(R.id.spSubscriptionInterval);
         String[] intervalNames = {"Хвилинна (Тест)", "Тижнева", "Місячна", "Річна"};
         long[] intervalValues = {MINUTE_MS, WEEK_MS, MONTH_MS, YEAR_MS};
-        ArrayAdapter<String> intervalAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, intervalNames);
+        ArrayAdapter<String> intervalAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, intervalNames);
+        intervalAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         spInterval.setAdapter(intervalAdapter);
-        layout.addView(spInterval);
 
         if (existingSub != null) {
             etTitle.setText(existingSub.title);
@@ -126,12 +115,28 @@ public class SubscriptionsFragment extends Fragment {
             spInterval.setSelection(2); // За замовчуванням вибираємо "Місячна"
         }
 
-        builder.setView(layout);
-        builder.setPositiveButton("Зберегти", (dialog, which) -> {
-            String title = etTitle.getText().toString();
-            double amount = Double.parseDouble(etPrice.getText().toString().isEmpty() ? "0" : etPrice.getText().toString());
+        AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogView)
+                .create();
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnSave.setOnClickListener(v -> {
+            String title = etTitle.getText() != null ? etTitle.getText().toString().trim() : "";
+            String amountValue = etPrice.getText() != null ? etPrice.getText().toString().trim() : "";
             String cat = spCategory.getSelectedItem().toString();
             long selectedInterval = intervalValues[spInterval.getSelectedItemPosition()];
+            double amount;
+
+            try {
+                amount = Double.parseDouble(amountValue.isEmpty() ? "0" : amountValue);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Некоректна сума", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             if (existingSub == null) {
                 Subscription newSub = new Subscription(loggedInUserId, title, "", cat, amount, "UAH", System.currentTimeMillis(), selectedInterval, false);
@@ -139,6 +144,7 @@ public class SubscriptionsFragment extends Fragment {
                     repository.insertSubscription(newSub);
                     loadData();
                 });
+                dialog.dismiss();
             } else {
                 existingSub.title = title;
                 existingSub.amount = amount;
@@ -155,14 +161,13 @@ public class SubscriptionsFragment extends Fragment {
                     loadData();
                 }, 300);
                 });
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("Скасувати", null);
-        builder.show();
     }
 
     private void deleteSub(Subscription sub) {
-        new AlertDialog.Builder(getContext())
+        new MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Видалити підписку?")
                 .setPositiveButton("Так", (d, w) -> {
                     AlarmScheduler.cancelSubscriptionReminder(requireContext(), sub.id);

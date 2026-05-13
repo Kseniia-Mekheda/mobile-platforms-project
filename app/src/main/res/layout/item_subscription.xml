@@ -2,11 +2,10 @@
 <com.google.android.material.card.MaterialCardView 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.TaskForge.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp">
+    android:layout_margin="8dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -17,9 +16,8 @@
             android:id="@+id/tvSubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#000000" />
+            android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
+            android:textColor="@color/ui_heading_text" />
 
         <TextView
             android:id="@+id/tvSubCategory"
@@ -27,17 +25,15 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSubTitle"
             android:layout_marginTop="4dp"
-            android:textSize="14sp"
-            android:textColor="#666666" />
+            style="@style/Widget.TaskForge.Tag" />
 
         <TextView
             android:id="@+id/tvSubPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="#D32F2F" />
+            android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
+            android:textColor="@color/ui_heading_text" />
 
         <TextView
             android:id="@+id/tvNextBilling"
@@ -45,8 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/tvSubCategory"
             android:layout_marginTop="12dp"
-            android:textSize="14sp"
-            android:textColor="#1976D2" />
+            android:textAppearance="@style/TextAppearance.TaskForge.Caption" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchReminder"
@@ -55,6 +50,9 @@
             android:layout_below="@id/tvSubPrice"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="12dp"
+            android:textColor="@color/ui_body_text"
+            app:thumbTint="@color/switch_thumb_peach"
+            app:trackTint="@color/switch_track_peach"
             android:text="Нагадати" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

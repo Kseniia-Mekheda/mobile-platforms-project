@@ -1,9 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Base.Theme.TASKFORGE" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:windowLightStatusBar">true</item>
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/ui_accent_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/ui_accent_secondary</item>
+        <item name="colorOnSecondary">@color/ui_heading_text</item>
+        <item name="android:colorBackground">@color/ui_background</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/ui_body_text</item>
+        <item name="colorOnSurfaceVariant">@color/ui_hint_text</item>
+        <item name="android:windowBackground">@color/ui_background</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:statusBarColor">@color/ui_background</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="textAppearanceHeadlineLarge">@style/TextAppearance.TaskForge.Headline1</item>
+        <item name="textAppearanceTitleLarge">@style/TextAppearance.TaskForge.Headline2</item>
+        <item name="textAppearanceBodyLarge">@style/TextAppearance.TaskForge.Body</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.TaskForge.Caption</item>
+        <item name="materialButtonStyle">@style/Widget.TaskForge.Button.Primary</item>
+        <item name="materialCardViewStyle">@style/Widget.TaskForge.CardView</item>
+        <item name="floatingActionButtonStyle">@style/Widget.TaskForge.FAB</item>
+        <item name="textInputStyle">@style/Widget.TaskForge.TextInputLayout</item>
+        <item name="editTextStyle">@style/Widget.TaskForge.EditText</item>
+        <item name="bottomNavigationStyle">@style/Widget.TaskForge.BottomNavigationView</item>
+        <item name="materialAlertDialogTheme">@style/ThemeOverlay.TaskForge.MaterialAlertDialog</item>
     </style>
 
     <style name="Theme.TASKFORGE" parent="Base.Theme.TASKFORGE" />

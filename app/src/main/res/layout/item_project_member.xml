@@ -5,14 +5,15 @@
     android:layout_height="wrap_content"
     android:padding="12dp"
     android:layout_marginBottom="8dp"
-    android:background="@android:color/white">
+    android:elevation="1dp"
+    android:background="@drawable/bg_member_item">
 
     <TextView
         android:id="@+id/tvMemberName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textColor="@android:color/black"
+        android:textAppearance="@style/TextAppearance.TaskForge.Body"
+        android:textColor="@color/ui_heading_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnKick" />
@@ -21,8 +22,8 @@
         android:id="@+id/tvMemberEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray"
+        android:textAppearance="@style/TextAppearance.TaskForge.Caption"
+        android:textColor="@color/ui_hint_text"
         app:layout_constraintTop_toBottomOf="@id/tvMemberName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/btnKick" />
@@ -32,7 +33,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:src="@android:drawable/ic_delete"
-        app:tint="@android:color/holo_red_dark"
+        app:tint="@color/ui_accent_secondary"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:contentDescription="Kick Member"
         app:layout_constraintTop_toTopOf="parent"

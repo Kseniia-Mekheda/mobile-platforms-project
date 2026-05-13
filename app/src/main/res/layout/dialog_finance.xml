@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:padding="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_dialog_surface"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Новий запис"
+            android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
+            android:textColor="@color/ui_heading_text" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.TaskForge.TextInputLayout.Dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Назва">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFinanceTitle"
+                style="@style/Widget.TaskForge.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.TaskForge.TextInputLayout.Dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Сума">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFinanceAmount"
+                style="@style/Widget.TaskForge.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Тип"
+            android:textAppearance="@style/TextAppearance.TaskForge.Caption"
+            android:textColor="@color/ui_heading_text" />
+
+        <Spinner
+            android:id="@+id/spFinanceType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_dialog_field" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="Категорія"
+            android:textAppearance="@style/TextAppearance.TaskForge.Caption"
+            android:textColor="@color/ui_heading_text" />
+
+        <Spinner
+            android:id="@+id/spFinanceCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/bg_dialog_field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.TaskForge.TextInputLayout.Dialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Опис">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etFinanceDescription"
+                style="@style/Widget.TaskForge.EditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:minLines="2" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnCancelDialog"
+                style="@style/Widget.TaskForge.Button.DialogCancel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Скасувати" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSaveDialog"
+                style="@style/Widget.TaskForge.Button.DialogSave"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:text="Зберегти" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

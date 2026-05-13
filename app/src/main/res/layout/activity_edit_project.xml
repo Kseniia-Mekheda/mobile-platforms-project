@@ -1,47 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
     android:fitsSystemWindows="true"
-    android:background="#F5F5F5">
+    android:background="@color/ui_background">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Project"
-        android:textSize="22sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
+        android:textColor="@color/ui_heading_text"
         android:layout_marginBottom="16dp" />
 
     <EditText
         android:id="@+id/etProjectName"
+        style="@style/Widget.TaskForge.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Project Name"
+        android:backgroundTint="@color/ui_accent_secondary"
         android:inputType="text" />
 
     <EditText
         android:id="@+id/etProjectDesc"
+        style="@style/Widget.TaskForge.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Project Description"
         android:inputType="textMultiLine"
+        android:backgroundTint="@color/ui_accent_secondary"
         android:lines="3"
         android:layout_marginTop="8dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveProject"
+        style="@style/Widget.TaskForge.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Changes"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="Save Changes" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"
+        android:background="@color/ui_card_border"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp" />
 
@@ -49,8 +55,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Manage Members"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
+        android:textColor="@color/ui_heading_text"
         android:layout_marginBottom="8dp" />
 
     <LinearLayout
@@ -60,14 +66,17 @@
 
         <EditText
             android:id="@+id/etUserEmail"
+            style="@style/Widget.TaskForge.EditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="User Email"
+            android:backgroundTint="@color/ui_accent_secondary"
             android:inputType="textEmailAddress" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddMember"
+            style="@style/Widget.TaskForge.Button.Secondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Member"

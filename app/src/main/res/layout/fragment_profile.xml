@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#F5F5F5">
+    android:background="@color/ui_background">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Мій Профіль"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.TaskForge.Headline1"
         android:layout_marginBottom="24dp"
-        android:textColor="?attr/colorPrimary" />
+        android:textColor="@color/ui_heading_text" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ім'я"
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray" />
+        android:textAppearance="@style/TextAppearance.TaskForge.Caption" />
 
     <EditText
         android:id="@+id/etProfileName"
+        style="@style/Widget.TaskForge.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ваше ім'я"
         android:inputType="textPersonName"
+        android:backgroundTint="@color/ui_accent_secondary"
         android:layout_marginBottom="16dp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Email"
-        android:textSize="14sp"
-        android:textColor="@android:color/darker_gray" />
+        android:textAppearance="@style/TextAppearance.TaskForge.Caption" />
 
     <EditText
         android:id="@+id/etProfileEmail"
+        style="@style/Widget.TaskForge.EditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ваш Email"
         android:inputType="textEmailAddress"
+        android:backgroundTint="@color/ui_accent_secondary"
         android:layout_marginBottom="24dp" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveProfile"
+        style="@style/Widget.TaskForge.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Зберегти зміни"
@@ -57,13 +60,12 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnLogout"
+        style="@style/Widget.TaskForge.Button.Danger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Вийти з акаунту"
-        android:backgroundTint="@android:color/holo_red_dark"
-        android:textColor="@android:color/white"
         android:padding="12dp"
         android:layout_marginBottom="16dp" />
 

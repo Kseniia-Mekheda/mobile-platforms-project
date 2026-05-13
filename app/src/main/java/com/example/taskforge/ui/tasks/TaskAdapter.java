@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskforge.R;
 import com.example.taskforge.data.entities.Task;
+import com.example.taskforge.ui.common.TagStyleUtil;
 
 import java.util.List;
 
@@ -38,9 +39,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
         Task task = taskList.get(position);
         holder.tvTaskTitle.setText(task.title);
-        holder.tvTaskCategory.setText("Category: " + task.category);
+        holder.tvTaskCategory.setText(task.category);
         holder.tvTaskPriority.setText("Priority: " + task.priority);
-        holder.tvTaskStatus.setText("Status: " + task.status);
+        holder.tvTaskStatus.setText(task.status);
+        TagStyleUtil.applyTagStyle(holder.tvTaskCategory, task.category);
+        TagStyleUtil.applyTagStyle(holder.tvTaskStatus, task.status);
 
         holder.itemView.setOnClickListener(v -> {
             if (listener != null) {

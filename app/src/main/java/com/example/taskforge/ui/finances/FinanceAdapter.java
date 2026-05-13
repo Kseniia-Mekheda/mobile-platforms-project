@@ -1,16 +1,17 @@
 package com.example.taskforge.ui.finances;
 
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.taskforge.R;
 import com.example.taskforge.data.entities.FinanceRecord;
+import com.example.taskforge.ui.common.TagStyleUtil;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -51,15 +52,16 @@ public class FinanceAdapter extends RecyclerView.Adapter<FinanceAdapter.FinanceV
         holder.tvTitle.setText(record.title);
         holder.tvCategory.setText(record.category);
         holder.tvDate.setText(dateFormat.format(new Date(record.date_ms)));
+        TagStyleUtil.applyTagStyle(holder.tvCategory, record.category);
 
         String amountString = String.format(Locale.getDefault(), "%.2f %s", record.amount, record.currency != null ? record.currency : "UAH");
         
         if ("INCOME".equals(record.record_type)) {
             holder.tvAmount.setText("+" + amountString);
-            holder.tvAmount.setTextColor(Color.parseColor("#4CAF50")); // Green
+            holder.tvAmount.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.ui_heading_text));
         } else {
             holder.tvAmount.setText("-" + amountString);
-            holder.tvAmount.setTextColor(Color.parseColor("#F44336")); // Red
+            holder.tvAmount.setTextColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.ui_body_text));
         }
 
         holder.itemView.setOnClickListener(v -> {

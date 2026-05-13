@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.taskforge.R;
 import com.example.taskforge.data.entities.Subscription;
+import com.example.taskforge.ui.common.TagStyleUtil;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -49,6 +50,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<SubscriptionAdapte
         Subscription sub = subscriptions.get(position);
         holder.tvTitle.setText(sub.title);
         holder.tvCategory.setText(sub.category);
+        TagStyleUtil.applyTagStyle(holder.tvCategory, sub.category);
 
         // ВИПРАВЛЕНО: amount замість price
         holder.tvPrice.setText("-" + sub.amount + " " + sub.currency);

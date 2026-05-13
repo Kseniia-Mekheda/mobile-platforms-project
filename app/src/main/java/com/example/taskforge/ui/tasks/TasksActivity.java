@@ -1,14 +1,16 @@
 package com.example.taskforge.ui.tasks;
 
-import android.app.AlertDialog;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,7 +20,9 @@ import com.example.taskforge.data.entities.Task;
 import com.example.taskforge.data.entities.User;
 import com.example.taskforge.domain.repositories.TaskForgeRepository;
 import com.example.taskforge.domain.utils.TaskSorter;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,45 +85,38 @@ public class TasksActivity extends AppCompatActivity {
     }
 
     private void showTaskDialog(Task existingTask) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         boolean isEdit = existingTask != null;
-        builder.setTitle(isEdit ? "Edit Task" : "New Task");
-
-        LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(50, 20, 50, 20);
-
-        final EditText titleBox = new EditText(this);
-        titleBox.setHint("Task Name");
-        layout.addView(titleBox);
-
-        final Spinner categorySpinner = new Spinner(this);
+        android.view.View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_task, null, false);
+        final TextInputEditText titleBox = dialogView.findViewById(R.id.etTaskTitle);
+        final Spinner categorySpinner = dialogView.findViewById(R.id.spTaskCategory);
+        final View btnCancel = dialogView.findViewById(R.id.btnCancelDialog);
+        final View btnSave = dialogView.findViewById(R.id.btnSaveDialog);
         String[] categories = new String[]{"Development", "Design", "QA", "Marketing", "Other"};
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categories);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_dark, categories);
+        categoryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         categorySpinner.setAdapter(categoryAdapter);
-        layout.addView(categorySpinner);
 
-        final Spinner prioritySpinner = new Spinner(this);
+        final Spinner prioritySpinner = dialogView.findViewById(R.id.spTaskPriority);
         String[] priorities = new String[]{"High", "Medium", "Low"};
-        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, priorities);
+        ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_dark, priorities);
+        priorityAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         prioritySpinner.setAdapter(priorityAdapter);
-        layout.addView(prioritySpinner);
 
-        final Spinner statusSpinner = new Spinner(this);
+        final Spinner statusSpinner = dialogView.findViewById(R.id.spTaskStatus);
         String[] statuses = new String[]{"ToDo", "InProgress", "Done"};
-        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, statuses);
+        ArrayAdapter<String> statusAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_dark, statuses);
+        statusAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         statusSpinner.setAdapter(statusAdapter);
-        layout.addView(statusSpinner);
 
-        final Spinner assigneeSpinner = new Spinner(this);
+        final Spinner assigneeSpinner = dialogView.findViewById(R.id.spTaskAssignee);
         List<String> userNames = new ArrayList<>();
         for (User u : projectUsers) {
             userNames.add(u.name);
         }
         if (userNames.isEmpty()) userNames.add("Unassigned");
-        ArrayAdapter<String> assigneeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, userNames);
+        ArrayAdapter<String> assigneeAdapter = new ArrayAdapter<>(this, R.layout.spinner_item_dark, userNames);
+        assigneeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         assigneeSpinner.setAdapter(assigneeAdapter);
-        layout.addView(assigneeSpinner);
 
         if (isEdit) {
             titleBox.setText(existingTask.title);
@@ -137,10 +134,17 @@ public class TasksActivity extends AppCompatActivity {
             }
         }
 
-        builder.setView(layout);
+        AlertDialog dialog = new MaterialAlertDialogBuilder(this)
+                .setView(dialogView)
+                .create();
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            String title = titleBox.getText().toString().trim();
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnSave.setOnClickListener(v -> {
+            String title = titleBox.getText() != null ? titleBox.getText().toString().trim() : "";
             String category = categorySpinner.getSelectedItem().toString();
             String priority = prioritySpinner.getSelectedItem().toString();
             String status = statusSpinner.getSelectedItem().toString();
@@ -154,7 +158,7 @@ public class TasksActivity extends AppCompatActivity {
             }
 
             if (title.isEmpty()) {
-                Toast.makeText(this, "Title cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Назва не може бути порожньою", Toast.LENGTH_SHORT).show();
             } else {
                 if (isEdit) {
                     existingTask.title = title;
@@ -171,10 +175,9 @@ public class TasksActivity extends AppCompatActivity {
                 new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
                     loadTasks();
                 }, 300);
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.create().show();
     }
 
     private void setSpinnerSelection(Spinner spinner, String[] array, String value) {

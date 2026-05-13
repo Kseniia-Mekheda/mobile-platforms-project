@@ -1,19 +1,19 @@
 package com.example.taskforge.ui.projects;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +22,9 @@ import com.example.taskforge.R;
 import com.example.taskforge.data.entities.Project;
 import com.example.taskforge.data.entities.ProjectMember;
 import com.example.taskforge.domain.repositories.TaskForgeRepository;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,43 +95,41 @@ public class ProjectsFragment extends Fragment {
     }
 
     private void showAddProjectDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Новий Проєкт");
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_project, null, false);
+        final TextInputEditText titleBox = dialogView.findViewById(R.id.etProjectTitle);
+        final TextInputEditText descBox = dialogView.findViewById(R.id.etProjectDescription);
+        View btnCancel = dialogView.findViewById(R.id.btnCancelDialog);
+        View btnSave = dialogView.findViewById(R.id.btnSaveDialog);
 
-        LinearLayout layout = new LinearLayout(getContext());
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(50, 20, 50, 20);
+        AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogView)
+                .create();
 
-        final EditText titleBox = new EditText(getContext());
-        titleBox.setHint("Назва проєкту");
-        layout.addView(titleBox);
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
-        final EditText descBox = new EditText(getContext());
-        descBox.setHint("Опис");
-        layout.addView(descBox);
-
-        builder.setView(layout);
-
-        builder.setPositiveButton("Створити", (dialog, which) -> {
-            String title = titleBox.getText().toString().trim();
-            String desc = descBox.getText().toString().trim();
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnSave.setOnClickListener(v -> {
+            String title = titleBox.getText() != null ? titleBox.getText().toString().trim() : "";
+            String desc = descBox.getText() != null ? descBox.getText().toString().trim() : "";
 
             if (title.isEmpty()) {
                 Toast.makeText(getContext(), "Назва не може бути порожньою", Toast.LENGTH_SHORT).show();
-            } else {
-                executorService.execute(() -> {
-                    Project p = new Project(loggedInUserId, title, desc);
-                    long createdProjectId = repository.insertProject(p);
-                    if (createdProjectId != -1) {
-                        repository.insertProjectMember(new ProjectMember(createdProjectId, loggedInUserId));
-                        loadProjects();
-                    }
-                });
+                return;
             }
+
+            executorService.execute(() -> {
+                Project p = new Project(loggedInUserId, title, desc);
+                long createdProjectId = repository.insertProject(p);
+                if (createdProjectId != -1) {
+                    repository.insertProjectMember(new ProjectMember(createdProjectId, loggedInUserId));
+                    loadProjects();
+                }
+            });
+            dialog.dismiss();
         });
-        
-        builder.setNegativeButton("Скасувати", (dialog, which) -> dialog.dismiss());
-        builder.create().show();
     }
 
     @Override

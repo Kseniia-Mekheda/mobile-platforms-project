@@ -1,24 +1,20 @@
 package com.example.taskforge.ui.finances;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +27,9 @@ import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -145,9 +142,11 @@ public class FinancesFragment extends Fragment {
         dataSet.setSelectionShift(5f);
         
         ArrayList<Integer> colors = new ArrayList<>();
-        for (int c : ColorTemplate.MATERIAL_COLORS) colors.add(c);
-        for (int c : ColorTemplate.VORDIPLOM_COLORS) colors.add(c);
-        for (int c : ColorTemplate.JOYFUL_COLORS) colors.add(c);
+        colors.add(requireContext().getColor(R.color.ui_chart_pastel_1));
+        colors.add(requireContext().getColor(R.color.ui_chart_pastel_2));
+        colors.add(requireContext().getColor(R.color.ui_chart_pastel_3));
+        colors.add(requireContext().getColor(R.color.ui_chart_pastel_4));
+        colors.add(requireContext().getColor(R.color.ui_chart_pastel_5));
         dataSet.setColors(colors);
 
         PieData data = new PieData(dataSet);
@@ -161,52 +160,34 @@ public class FinancesFragment extends Fragment {
     }
 
     private void showFinanceDialog(FinanceRecord existingRecord) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         boolean isEdit = existingRecord != null;
-        builder.setTitle(isEdit ? "Edit Record" : "New Record");
+        View dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_finance, null, false);
+        final TextInputEditText titleBox = dialogView.findViewById(R.id.etFinanceTitle);
+        final TextInputEditText amountBox = dialogView.findViewById(R.id.etFinanceAmount);
+        final Spinner typeSpinner = dialogView.findViewById(R.id.spFinanceType);
+        final Spinner categorySpinner = dialogView.findViewById(R.id.spFinanceCategory);
+        final TextInputEditText descBox = dialogView.findViewById(R.id.etFinanceDescription);
+        final View btnCancel = dialogView.findViewById(R.id.btnCancelDialog);
+        final View btnSave = dialogView.findViewById(R.id.btnSaveDialog);
 
-        LinearLayout layout = new LinearLayout(getContext());
-        layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setPadding(50, 20, 50, 20);
+        String[] types = new String[]{"Expense", "Income"};
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, types);
+        typeAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
+        typeSpinner.setAdapter(typeAdapter);
 
-        final EditText titleBox = new EditText(getContext());
-        titleBox.setHint("Title");
-        layout.addView(titleBox);
-
-        final EditText amountBox = new EditText(getContext());
-        amountBox.setHint("Amount");
-        amountBox.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        layout.addView(amountBox);
-
-        final RadioGroup typeGroup = new RadioGroup(getContext());
-        typeGroup.setOrientation(LinearLayout.HORIZONTAL);
-        RadioButton rbExpense = new RadioButton(getContext());
-        rbExpense.setText("Expense");
-        RadioButton rbIncome = new RadioButton(getContext());
-        rbIncome.setText("Income");
-        typeGroup.addView(rbExpense);
-        typeGroup.addView(rbIncome);
-        rbExpense.setChecked(true);
-        layout.addView(typeGroup);
-
-        final Spinner categorySpinner = new Spinner(getContext());
         String[] categories = new String[]{"Food", "Transport", "Rent", "Salary", "Other"};
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, categories);
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, categories);
+        categoryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         categorySpinner.setAdapter(categoryAdapter);
-        layout.addView(categorySpinner);
-        
-        final EditText descBox = new EditText(getContext());
-        descBox.setHint("Description");
-        layout.addView(descBox);
 
         if (isEdit) {
             titleBox.setText(existingRecord.title);
             amountBox.setText(String.valueOf(existingRecord.amount));
             descBox.setText(existingRecord.description);
             if ("INCOME".equals(existingRecord.record_type)) {
-                rbIncome.setChecked(true);
+                typeSpinner.setSelection(1);
             } else {
-                rbExpense.setChecked(true);
+                typeSpinner.setSelection(0);
             }
             
             for (int i = 0; i < categories.length; i++) {
@@ -217,17 +198,24 @@ public class FinancesFragment extends Fragment {
             }
         }
 
-        builder.setView(layout);
+        AlertDialog dialog = new MaterialAlertDialogBuilder(requireContext())
+                .setView(dialogView)
+                .create();
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
 
-        builder.setPositiveButton("Save", (dialog, which) -> {
-            String title = titleBox.getText().toString().trim();
-            String amountStr = amountBox.getText().toString().trim();
-            String desc = descBox.getText().toString().trim();
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnSave.setOnClickListener(v -> {
+            String title = titleBox.getText() != null ? titleBox.getText().toString().trim() : "";
+            String amountStr = amountBox.getText() != null ? amountBox.getText().toString().trim() : "";
+            String desc = descBox.getText() != null ? descBox.getText().toString().trim() : "";
             String category = categorySpinner.getSelectedItem().toString();
-            String type = rbIncome.isChecked() ? "INCOME" : "EXPENSE";
+            String type = typeSpinner.getSelectedItemPosition() == 1 ? "INCOME" : "EXPENSE";
 
             if (title.isEmpty() || amountStr.isEmpty()) {
-                Toast.makeText(getContext(), "Title and Amount are required", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Назва і сума обов'язкові", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     double amount = Double.parseDouble(amountStr);
@@ -246,17 +234,16 @@ public class FinancesFragment extends Fragment {
                         }
                         loadFinances();
                     });
+                    dialog.dismiss();
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Некоректна сума", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.create().show();
     }
 
     private void showDeleteDialog(FinanceRecord record) {
-        new AlertDialog.Builder(getContext())
+        new MaterialAlertDialogBuilder(requireContext())
             .setTitle("Видалити запис?")
             .setPositiveButton("Так", (dialog, which) -> {
                 executorService.execute(() -> {

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.TaskForge.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="8dp">
+    android:layout_margin="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,9 +16,8 @@
             android:id="@+id/tvTaskTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorPrimary" />
+            android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
+            android:textColor="@color/ui_heading_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -29,27 +27,25 @@
 
             <TextView
                 android:id="@+id/tvTaskCategory"
-                android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/darker_gray" />
+                android:layout_marginEnd="8dp"
+                style="@style/Widget.TaskForge.Tag" />
 
             <TextView
                 android:id="@+id/tvTaskPriority"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.TaskForge.Caption"
+                android:textColor="@color/ui_body_text" />
         </LinearLayout>
 
         <TextView
             android:id="@+id/tvTaskStatus"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:textSize="14sp"
-            android:textColor="?attr/colorSecondary" />
+            style="@style/Widget.TaskForge.Tag" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
