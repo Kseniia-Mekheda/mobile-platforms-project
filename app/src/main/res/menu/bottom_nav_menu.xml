@@ -3,17 +3,17 @@
     <item
         android:id="@+id/nav_projects"
         android:icon="@android:drawable/ic_menu_today"
-        android:title="Проєкти" />
+        android:title="Projects" />
     <item
         android:id="@+id/nav_finances"
         android:icon="@android:drawable/ic_menu_sort_by_size"
-        android:title="Фінанси" />
+        android:title="Finances" />
     <item
         android:id="@+id/nav_subscriptions"
         android:icon="@android:drawable/ic_menu_recent_history"
-        android:title="Підписки" />
+        android:title="Subscriptions" />
     <item
         android:id="@+id/nav_profile"
         android:icon="@android:drawable/ic_menu_myplaces"
-        android:title="Профіль" />
+        android:title="Profile" />
 </menu>

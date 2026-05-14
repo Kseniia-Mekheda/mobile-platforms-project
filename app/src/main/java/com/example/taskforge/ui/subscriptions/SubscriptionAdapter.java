@@ -58,7 +58,7 @@ public class SubscriptionAdapter extends RecyclerView.Adapter<SubscriptionAdapte
         // ВИПРАВЛЕНО: repeat_interval замість billing_cycle_ms
         long nextBillingMs = sub.start_date_ms + sub.repeat_interval;
         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
-        holder.tvNextBilling.setText("Наступна оплата: " + sdf.format(new Date(nextBillingMs)));
+        holder.tvNextBilling.setText("Next payment: " + sdf.format(new Date(nextBillingMs)));
 
         holder.switchReminder.setOnCheckedChangeListener(null);
         holder.switchReminder.setChecked(sub.reminder_enabled);

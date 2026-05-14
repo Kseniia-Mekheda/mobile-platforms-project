@@ -29,7 +29,7 @@
                 android:id="@+id/tvTaskCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="20dp"
                 style="@style/Widget.TaskForge.Tag" />
 
             <TextView
@@ -37,15 +37,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="@style/TextAppearance.TaskForge.Caption"
+                android:layout_marginEnd="20dp"
                 android:textColor="@color/ui_body_text" />
-        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvTaskStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            style="@style/Widget.TaskForge.Tag" />
+            <TextView
+                android:id="@+id/tvTaskStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.TaskForge.Tag" />
+        </LinearLayout>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

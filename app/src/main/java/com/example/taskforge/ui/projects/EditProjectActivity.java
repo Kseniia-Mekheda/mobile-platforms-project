@@ -66,7 +66,7 @@ public class EditProjectActivity extends AppCompatActivity {
         projectId = getIntent().getLongExtra("PROJECT_ID", -1);
 
         if (projectId == -1 || loggedInUserId == -1) {
-            Toast.makeText(this, "Помилка завантаження проєкту", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error occurred loading project", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -115,7 +115,7 @@ public class EditProjectActivity extends AppCompatActivity {
         String desc = etProjectDesc.getText().toString().trim();
 
         if (name.isEmpty()) {
-            Toast.makeText(this, "Назва проєкту не може бути порожньою", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Name of the project cannot be empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -125,7 +125,7 @@ public class EditProjectActivity extends AppCompatActivity {
                 currentProject.description = desc;
                 repository.updateProject(currentProject);
 
-                runOnUiThread(() -> Toast.makeText(this, "Проєкт збережено", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(this, "Saved successfully", Toast.LENGTH_SHORT).show());
             }
         });
     }
@@ -133,22 +133,22 @@ public class EditProjectActivity extends AppCompatActivity {
     private void addMemberByEmail() {
         String email = etUserEmail.getText().toString().trim();
         if (email.isEmpty()) {
-            Toast.makeText(this, "Введіть email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Enter email", Toast.LENGTH_SHORT).show();
             return;
         }
 
         executorService.execute(() -> {
             User foundUser = repository.getUserByEmail(email);
             if (foundUser == null) {
-                runOnUiThread(() -> Toast.makeText(this, "Користувача не знайдено", Toast.LENGTH_SHORT).show());
+                runOnUiThread(() -> Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show());
             } else {
                 int count = repository.isUserInProject(projectId, foundUser.id);
                 if (count > 0) {
-                    runOnUiThread(() -> Toast.makeText(this, "Користувач вже у проєкті", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(() -> Toast.makeText(this, "User already is a member of the project", Toast.LENGTH_SHORT).show());
                 } else {
                     repository.insertProjectMember(new ProjectMember(projectId, foundUser.id));
                     runOnUiThread(() -> {
-                        Toast.makeText(this, "Користувача додано", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "User added successfully", Toast.LENGTH_SHORT).show();
                         etUserEmail.setText("");
                     });
                     new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
@@ -161,10 +161,10 @@ public class EditProjectActivity extends AppCompatActivity {
 
     private void showKickConfirmationDialog(User user) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Видалити учасника")
-                .setMessage("Ви впевнені, що хочете видалити " + user.name + "?")
-                .setPositiveButton("Так", (dialog, which) -> kickMember(user.id))
-                .setNegativeButton("Ні", (dialog, which) -> dialog.dismiss())
+        builder.setTitle("Delete the member")
+                .setMessage("Are you sure you want to delete member " + user.name + "?")
+                .setPositiveButton("Yes", (dialog, which) -> kickMember(user.id))
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 

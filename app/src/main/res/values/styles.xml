@@ -61,6 +61,7 @@
     <style name="Widget.TaskForge.Button.DialogSave" parent="Widget.MaterialComponents.Button">
         <item name="android:minHeight">44dp</item>
         <item name="cornerRadius">10dp</item>
+        <item name="android:padding">10dp</item>
         <item name="backgroundTint">@color/ui_accent_primary</item>
         <item name="android:textColor">@color/ui_heading_text</item>
         <item name="android:fontFamily">sans-serif-medium</item>

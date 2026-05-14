@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:fitsSystemWindows="true"
     android:background="@color/ui_background">
 
     <TextView
@@ -16,25 +15,35 @@
         android:textColor="@color/ui_heading_text"
         android:layout_marginBottom="16dp" />
 
-    <EditText
-        android:id="@+id/etProjectName"
-        style="@style/Widget.TaskForge.EditText"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.TaskForge.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Project Name"
-        android:backgroundTint="@color/ui_accent_secondary"
-        android:inputType="text" />
+        android:layout_marginBottom="16dp"
+        android:hint="Project Name">
 
-    <EditText
-        android:id="@+id/etProjectDesc"
-        style="@style/Widget.TaskForge.EditText"
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/Widget.TaskForge.EditText"
+            android:id="@+id/etProjectName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.TaskForge.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Project Description"
-        android:inputType="textMultiLine"
-        android:backgroundTint="@color/ui_accent_secondary"
-        android:lines="3"
-        android:layout_marginTop="8dp" />
+        android:layout_marginBottom="24dp"
+        android:hint="Project Description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/Widget.TaskForge.EditText"
+            android:id="@+id/etProjectDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveProject"

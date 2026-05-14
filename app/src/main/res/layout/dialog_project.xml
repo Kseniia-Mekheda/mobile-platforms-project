@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Новий проєкт"
+            android:text="Add New Project"
             android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
             android:textColor="@color/ui_heading_text" />
 
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Назва проєкту">
+            android:hint="Name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProjectTitle"
@@ -38,7 +38,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Опис">
+            android:hint="Description">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etProjectDescription"
@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Скасувати" />
+                android:text="Cancel" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaveDialog"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:text="Зберегти" />
+                android:text="Save" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

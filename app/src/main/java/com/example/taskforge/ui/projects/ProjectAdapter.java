@@ -47,8 +47,8 @@ public class ProjectAdapter extends RecyclerView.Adapter<ProjectAdapter.ProjectV
     public void onBindViewHolder(@NonNull ProjectViewHolder holder, int position) {
         Project project = projectList.get(position);
         holder.tvProjectName.setText(project.name);
-        holder.tvProjectDesc.setText(project.description != null ? project.description : "Немає опису");
-        holder.tvProjectMembers.setText("Учасників: ...");
+        holder.tvProjectDesc.setText(project.description != null ? project.description : "No desc provided");
+        holder.tvProjectMembers.setText("Members: ...");
 
         if (project.owner_id == loggedInUserId) {
             holder.btnEditProject.setVisibility(View.VISIBLE);

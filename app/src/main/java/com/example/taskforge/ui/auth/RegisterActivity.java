@@ -50,29 +50,29 @@ public class RegisterActivity extends AppCompatActivity {
         String confirmPassword = etConfirmPassword.getText().toString();
 
         if (!Validator.isNotEmpty(name)) {
-            Toast.makeText(this, "Введіть ім'я", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Fill in name", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!Validator.isValidEmail(email)) {
-            Toast.makeText(this, "Невірний формат email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Invalid email", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!Validator.isValidPassword(password)) {
-            Toast.makeText(this, "Пароль має бути мінімум 6 символів", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password should contain at least 6 characters", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!password.equals(confirmPassword)) {
-            Toast.makeText(this, "Паролі не збігаються", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Перевіряємо чи існує користувач
         User existingUser = repository.getUserByEmail(email);
         if (existingUser != null) {
-            Toast.makeText(this, "Користувач з таким email вже існує", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User with this email already exists", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -82,10 +82,10 @@ public class RegisterActivity extends AppCompatActivity {
         long result = repository.insertUser(newUser);
 
         if (result != -1) {
-            Toast.makeText(this, "Успішна реєстрація! Тепер увійдіть.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Successful sign up", Toast.LENGTH_LONG).show();
             finish(); // Proceed to login
         } else {
-            Toast.makeText(this, "Помилка при реєстрації", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Sign Up error", Toast.LENGTH_SHORT).show();
         }
     }
 

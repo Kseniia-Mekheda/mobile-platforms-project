@@ -53,6 +53,6 @@
             android:textColor="@color/ui_body_text"
             app:thumbTint="@color/switch_thumb_peach"
             app:trackTint="@color/switch_track_peach"
-            android:text="Нагадати" />
+            android:text="Remind Me" />
     </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

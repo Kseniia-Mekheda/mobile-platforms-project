@@ -10,49 +10,47 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Мій Профіль"
+        android:text="My profile"
         android:textAppearance="@style/TextAppearance.TaskForge.Headline1"
         android:layout_marginBottom="24dp"
         android:textColor="@color/ui_heading_text" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ім'я"
-        android:textAppearance="@style/TextAppearance.TaskForge.Caption" />
-
-    <EditText
-        android:id="@+id/etProfileName"
-        style="@style/Widget.TaskForge.EditText"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.TaskForge.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ваше ім'я"
-        android:inputType="textPersonName"
-        android:backgroundTint="@color/ui_accent_secondary"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="16dp"
+        android:hint="Name">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textAppearance="@style/TextAppearance.TaskForge.Caption" />
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/Widget.TaskForge.EditText"
+            android:id="@+id/etProfileName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/etProfileEmail"
-        style="@style/Widget.TaskForge.EditText"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.TaskForge.TextInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ваш Email"
-        android:inputType="textEmailAddress"
-        android:backgroundTint="@color/ui_accent_secondary"
-        android:layout_marginBottom="24dp" />
+        android:layout_marginBottom="16dp"
+        android:hint="Email">
+
+        <com.google.android.material.textfield.TextInputEditText
+            style="@style/Widget.TaskForge.EditText"
+            android:id="@+id/etProfileEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveProfile"
         style="@style/Widget.TaskForge.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Зберегти зміни"
+        android:text="Save changes"
         android:padding="12dp" />
 
     <Space
@@ -65,7 +63,7 @@
         style="@style/Widget.TaskForge.Button.Danger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Вийти з акаунту"
+        android:text="Log Out"
         android:padding="12dp"
         android:layout_marginBottom="16dp" />
 

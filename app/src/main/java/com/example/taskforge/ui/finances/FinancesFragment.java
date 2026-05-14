@@ -95,7 +95,7 @@ public class FinancesFragment extends Fragment {
         pieChart.setHoleRadius(58f);
         pieChart.setTransparentCircleRadius(61f);
         pieChart.setDrawCenterText(true);
-        pieChart.setCenterText("Витрати");
+        pieChart.setCenterText("Expenses");
         pieChart.getLegend().setEnabled(false);
     }
 
@@ -137,7 +137,7 @@ public class FinancesFragment extends Fragment {
             return;
         }
 
-        PieDataSet dataSet = new PieDataSet(entries, "Витрати");
+        PieDataSet dataSet = new PieDataSet(entries, "Expenses");
         dataSet.setSliceSpace(3f);
         dataSet.setSelectionShift(5f);
         
@@ -215,7 +215,7 @@ public class FinancesFragment extends Fragment {
             String type = typeSpinner.getSelectedItemPosition() == 1 ? "INCOME" : "EXPENSE";
 
             if (title.isEmpty() || amountStr.isEmpty()) {
-                Toast.makeText(getContext(), "Назва і сума обов'язкові", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Name and amount are required", Toast.LENGTH_SHORT).show();
             } else {
                 try {
                     double amount = Double.parseDouble(amountStr);
@@ -236,7 +236,7 @@ public class FinancesFragment extends Fragment {
                     });
                     dialog.dismiss();
                 } catch (NumberFormatException e) {
-                    Toast.makeText(getContext(), "Некоректна сума", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Invalid amount", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -244,8 +244,8 @@ public class FinancesFragment extends Fragment {
 
     private void showDeleteDialog(FinanceRecord record) {
         new MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Видалити запис?")
-            .setPositiveButton("Так", (dialog, which) -> {
+            .setTitle("Delete the record?")
+            .setPositiveButton("Yes", (dialog, which) -> {
                 executorService.execute(() -> {
                     repository.deleteFinanceRecord(record);
                     new android.os.Handler(android.os.Looper.getMainLooper()).postDelayed(() -> {
@@ -253,7 +253,7 @@ public class FinancesFragment extends Fragment {
                 }, 200);
                 });
             })
-            .setNegativeButton("Ні", null)
+            .setNegativeButton("No", null)
             .show();
     }
 

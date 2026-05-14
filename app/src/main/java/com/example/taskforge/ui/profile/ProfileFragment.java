@@ -88,7 +88,7 @@ public class ProfileFragment extends Fragment {
         String newEmail = etProfileEmail.getText().toString().trim();
 
         if (newName.isEmpty() || newEmail.isEmpty()) {
-            Toast.makeText(getContext(), "Будь ласка, заповніть всі поля", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please, fill in all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -100,7 +100,7 @@ public class ProfileFragment extends Fragment {
 
                 if (getActivity() != null) {
                     getActivity().runOnUiThread(() -> 
-                            Toast.makeText(getContext(), "Дані оновлено", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(getContext(), "Data updated", Toast.LENGTH_SHORT).show()
                     );
                 }
             });
@@ -111,10 +111,10 @@ public class ProfileFragment extends Fragment {
         if (getContext() == null) return;
 
         new AlertDialog.Builder(getContext())
-                .setTitle("Вихід")
-                .setMessage("Ви дійсно хочете вийти?")
-                .setPositiveButton("Так", (dialog, which) -> logout())
-                .setNegativeButton("Ні", (dialog, which) -> dialog.dismiss())
+                .setTitle("Log out")
+                .setMessage("Are you sure?")
+                .setPositiveButton("Yes", (dialog, which) -> logout())
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
     }
 

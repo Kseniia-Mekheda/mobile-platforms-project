@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Ім'я">
+        android:hint="Name">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/Widget.TaskForge.EditText"
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Електронна пошта">
+        android:hint="Email">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/Widget.TaskForge.EditText"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         app:passwordToggleEnabled="true"
-        android:hint="Пароль">
+        android:hint="Password">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/Widget.TaskForge.EditText"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
         app:passwordToggleEnabled="true"
-        android:hint="Підтвердіть пароль">
+        android:hint="Confirm password">
 
         <com.google.android.material.textfield.TextInputEditText
             style="@style/Widget.TaskForge.EditText"
@@ -82,14 +82,14 @@
         style="@style/Widget.TaskForge.Button.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Зареєструватися"
+        android:text="Sign Up"
         android:layout_marginBottom="16dp"/>
 
     <TextView
         android:id="@+id/tvGoToLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Вже маєте акаунт? Увійти"
+        android:text="Already have an account? Log In"
         android:textAppearance="@style/TextAppearance.TaskForge.Caption"
         android:textColor="@color/ui_body_text"
         android:padding="8dp"/>

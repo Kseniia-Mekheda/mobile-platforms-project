@@ -5,6 +5,7 @@
     <color name="ui_background">#F5F5F5</color>
     <color name="ui_accent_primary">#FFCCB6</color>
     <color name="ui_accent_secondary">#DCCFF6</color>
+    <color name="ui_accent_secondary_light">#E8E1F2</color>
     <color name="ui_heading_text">#212121</color>
     <color name="ui_body_text">#4A4A4A</color>
     <color name="ui_hint_text">#8E8E8E</color>

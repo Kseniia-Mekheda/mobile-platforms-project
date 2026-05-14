@@ -116,7 +116,7 @@ public class ProjectsFragment extends Fragment {
             String desc = descBox.getText() != null ? descBox.getText().toString().trim() : "";
 
             if (title.isEmpty()) {
-                Toast.makeText(getContext(), "Назва не може бути порожньою", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Name cannot be empty", Toast.LENGTH_SHORT).show();
                 return;
             }
 

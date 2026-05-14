@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Нова задача"
+            android:text="Add New Task"
             android:textAppearance="@style/TextAppearance.TaskForge.Headline2"
             android:textColor="@color/ui_heading_text" />
 
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:hint="Назва задачі">
+            android:hint="Name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etTaskTitle"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="Категорія"
+            android:text="Category"
             android:textAppearance="@style/TextAppearance.TaskForge.Caption"
             android:textColor="@color/ui_heading_text" />
 
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Пріоритет"
+            android:text="Priority"
             android:textAppearance="@style/TextAppearance.TaskForge.Caption"
             android:textColor="@color/ui_heading_text" />
 
@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Статус"
+            android:text="Status"
             android:textAppearance="@style/TextAppearance.TaskForge.Caption"
             android:textColor="@color/ui_heading_text" />
 
@@ -82,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
-            android:text="Виконавець"
+            android:text="Assignee"
             android:textAppearance="@style/TextAppearance.TaskForge.Caption"
             android:textColor="@color/ui_heading_text" />
 
@@ -106,7 +106,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Скасувати" />
+                android:text="Cancel" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSaveDialog"
@@ -115,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:text="Зберегти" />
+                android:text="Save" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -50,7 +50,7 @@ public class TasksFragment extends Fragment {
         loggedInUserId = prefs.getLong("logged_in_user_id", -1);
 
         fabAddTask.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Додати завдання", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Add task", Toast.LENGTH_SHORT).show();
         });
 
         loadTasks();

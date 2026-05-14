@@ -158,7 +158,7 @@ public class TasksActivity extends AppCompatActivity {
             }
 
             if (title.isEmpty()) {
-                Toast.makeText(this, "Назва не може бути порожньою", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
             } else {
                 if (isEdit) {
                     existingTask.title = title;

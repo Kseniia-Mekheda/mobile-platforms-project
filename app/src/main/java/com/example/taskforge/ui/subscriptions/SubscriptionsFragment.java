@@ -91,12 +91,12 @@ public class SubscriptionsFragment extends Fragment {
         View btnCancel = dialogView.findViewById(R.id.btnCancelDialog);
         View btnSave = dialogView.findViewById(R.id.btnSaveDialog);
 
-        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, new String[]{"Розваги", "Софт", "Інше"});
+        ArrayAdapter<String> catAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, new String[]{"Entertainment", "Software", "Other"});
         catAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
         spCategory.setAdapter(catAdapter);
 
         Spinner spInterval = dialogView.findViewById(R.id.spSubscriptionInterval);
-        String[] intervalNames = {"Хвилинна (Тест)", "Тижнева", "Місячна", "Річна"};
+        String[] intervalNames = {"Minute (Test)", "Weekly", "Monthly", "Yearly"};
         long[] intervalValues = {MINUTE_MS, WEEK_MS, MONTH_MS, YEAR_MS};
         ArrayAdapter<String> intervalAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item_dark, intervalNames);
         intervalAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item_dark);
@@ -134,7 +134,7 @@ public class SubscriptionsFragment extends Fragment {
             try {
                 amount = Double.parseDouble(amountValue.isEmpty() ? "0" : amountValue);
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Некоректна сума", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Incorrect amount", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -168,15 +168,15 @@ public class SubscriptionsFragment extends Fragment {
 
     private void deleteSub(Subscription sub) {
         new MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Видалити підписку?")
-                .setPositiveButton("Так", (d, w) -> {
+                .setTitle("Delete the subscription?")
+                .setPositiveButton("Yes", (d, w) -> {
                     AlarmScheduler.cancelSubscriptionReminder(requireContext(), sub.id);
                     TaskForgeDatabase.databaseWriteExecutor.execute(() -> {
                         repository.deleteSubscription(sub);
                         loadData();
                     });
                 })
-                .setNegativeButton("Ні", null)
+                .setNegativeButton("No", null)
                 .show();
     }
 
@@ -187,10 +187,10 @@ public class SubscriptionsFragment extends Fragment {
             requireActivity().runOnUiThread(() -> {
                 if (isChecked) {
                     AlarmScheduler.scheduleSubscriptionReminder(requireContext(), sub);
-                    Toast.makeText(getContext(), "Таймер пішов (60 сек)!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Timer is on (60 sec)!", Toast.LENGTH_SHORT).show();
                 } else {
                     AlarmScheduler.cancelSubscriptionReminder(requireContext(), sub.id);
-                    Toast.makeText(getContext(), "Нагадування вимкнено", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Notification done", Toast.LENGTH_SHORT).show();
                 }
             });
         });

@@ -51,12 +51,12 @@ public class LoginActivity extends AppCompatActivity {
         String password = etPassword.getText().toString();
 
         if (!Validator.isValidEmail(email)) {
-            Toast.makeText(this, "Невірний формат email", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Incorrect email format", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!Validator.isValidPassword(password)) {
-            Toast.makeText(this, "Пароль має бути мінімум 6 символів", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Password should contain at least 6 characters", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -68,15 +68,15 @@ public class LoginActivity extends AppCompatActivity {
                 SharedPreferences prefs = getSharedPreferences("TaskForgePrefs", MODE_PRIVATE);
                 prefs.edit().putLong("logged_in_user_id", user.id).apply();
 
-                Toast.makeText(this, "Успішний вхід!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Successful Log In!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
             } else {
-                Toast.makeText(this, "Невірний пароль", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Wrong password", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "Користувача не знайдено", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "User not found", Toast.LENGTH_SHORT).show();
         }
     }
 
